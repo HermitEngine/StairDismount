@@ -1,4 +1,4 @@
-##2021-09-26
+## 2021-09-26
 
 I have downloaded and installed Unreal Engine. I did this through the [EPIC Launcher](https://www.epicgames.com/store/en-US/download) which I already had installed since Epic gives away free games every week and I collect them just because. Given the size, I downloaded it to my high capacity hard disk. This was a mistake. When I started it up, it ground the hard drive like crazy and took ages to start up. After some quick googling, I found a way to transplant this to my SSD and the startup is much faster.
 
