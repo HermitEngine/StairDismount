@@ -1,0 +1,7 @@
+##2021-09-26
+
+I have downloaded and installed Unreal Engine. I did this through the [EPIC Launcher](https://www.epicgames.com/store/en-US/download) which I already had installed since Epic gives away free games every week and I collect them just because. Given the size, I downloaded it to my high capacity hard disk. This was a mistake. When I started it up, it ground the hard drive like crazy and took ages to start up. After some quick googling, I found a way to transplant this to my SSD and the startup is much faster.
+
+I've had a few false starts when creating the initial project as there are a ton of options. Eventually, I just ended up creating a "blank" C++ project. From the documentation and youtube videos I've been browsing in the interim, it seems that when you don't know what you are doing, blueprint projects are ideal since it has all the context-sensitive help to guide you along the way. In contrast, the API reference on EPIC's website is no MSDN, and finding things in there is kind of rough. There's also no offline version. However, given my evaluation stipulation was to "Use C++ as much as possible", I elected for the C++ approach anyway. If things get rough, I may create a parallel blueprint project just to guide me along the basic concepts.
+
+A very irritating thing was that the editor seemed to want to activate my Oculus Rift, and when I shut down that service - Steam VR. It did this every time I started it up or ran a project. I finally figured out that disablling the relevant plugins fixed that issue.
