@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Created 2021-10-1 by eugene@e-goh.com
 
 #include "StairDismount.h"
 #include "Modules/ModuleManager.h"

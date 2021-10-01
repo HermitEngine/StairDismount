@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Created 2021-10-1 by eugene@e-goh.com
 
 #pragma once
 
@@ -6,12 +6,11 @@
 #include "GameFramework/GameModeBase.h"
 #include "StairDismountGameModeBase.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class STAIRDISMOUNT_API AStairDismountGameModeBase : public AGameModeBase
+//=============================================================================
+UCLASS() class STAIRDISMOUNT_API AStairDismountGameModeBase : public AGameModeBase
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
+public:
+	virtual void StartPlay() override;
 };
