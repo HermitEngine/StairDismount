@@ -20,9 +20,12 @@ public:
 	UFUNCTION() void MoveForward(float Value);
 	UFUNCTION() void MoveRight(float Value);
 	UFUNCTION() void Shoot();
+	UFUNCTION() void Reload();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay) FVector MuzzleOffset;
 	UPROPERTY(EditDefaultsOnly, Category = Projectile) TSubclassOf<class ABullet> ProjectileClass;
+	UPROPERTY(EditDefaultsOnly) USoundBase* WhooshSound;
+	UPROPERTY(EditDefaultsOnly) USoundBase* StartSound;
 
 protected:
 	virtual void BeginPlay() override;

@@ -2,6 +2,7 @@
 
 
 #include "CrashDummy.h"
+#include "StairDismountGameModeBase.h"
 
 //=============================================================================
 ACrashDummy::ACrashDummy()
@@ -13,7 +14,6 @@ ACrashDummy::ACrashDummy()
 void ACrashDummy::BeginPlay()
 {
 	Super::BeginPlay();
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Crash Dummy initialized and ready to go"));
 }
 
 //=============================================================================
@@ -28,10 +28,11 @@ void ACrashDummy::NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, cl
 {
 	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
 
-	float delta = (GetVelocity() - Other->GetVelocity()).Size();
+	float delta = (MyComp->GetComponentVelocity() - Other->GetVelocity()).Size();
 	if (delta > 5.f)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::SanitizeFloat(delta));
+		AStairDismountGameModeBase* GameMode = static_cast<AStairDismountGameModeBase*>(GetWorld()->GetAuthGameMode());
+		GameMode->Score += delta;
 	}
 }
 

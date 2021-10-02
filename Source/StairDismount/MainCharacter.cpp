@@ -1,6 +1,8 @@
 // Created 2021-10-1 by eugene@e-goh.com
 
 #include "MainCharacter.h"
+#include "StairDismountGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 
 //=============================================================================
 AMainCharacter::AMainCharacter()
@@ -12,7 +14,7 @@ AMainCharacter::AMainCharacter()
 void AMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Main Character initialized and ready to go"));
+	UGameplayStatics::PlaySound2D(this, StartSound);
 }
 
 //=============================================================================
@@ -31,6 +33,7 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis("Yaw", this, &AMainCharacter::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("Pitch", this, &AMainCharacter::AddControllerPitchInput);
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AMainCharacter::Shoot);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AMainCharacter::Reload);
 }
 
 //=============================================================================
@@ -60,7 +63,8 @@ void AMainCharacter::Shoot()
 		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
 		
 		UWorld* World = GetWorld();
-		if (World)
+		AStairDismountGameModeBase* GameMode = static_cast<AStairDismountGameModeBase*>(GetWorld()->GetAuthGameMode());
+		if (World && GameMode->Bullets > 0)
 		{
 			FActorSpawnParameters SpawnParams;
 			SpawnParams.Owner = this;
@@ -69,9 +73,17 @@ void AMainCharacter::Shoot()
 
 			if (Projectile)
 			{
+				GameMode->Bullets -= 1;
 				FVector LaunchDirection = CameraRotation.Vector();
 				Projectile->ShootInDirection(LaunchDirection);
+				UGameplayStatics::PlaySoundAtLocation(this, WhooshSound, MuzzleLocation);
 			}
 		}
 	}
+}
+
+//=============================================================================
+void AMainCharacter::Reload()
+{
+	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 }

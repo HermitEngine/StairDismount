@@ -15,4 +15,6 @@ public:
 	virtual void DrawHUD() override;
 
 	UPROPERTY(EditDefaultsOnly) UTexture2D* CrosshairTexture;
+	UPROPERTY(EditDefaultsOnly) UFont* ScoreFont;
+	UPROPERTY(EditDefaultsOnly) UFont* SmallFont;
 };

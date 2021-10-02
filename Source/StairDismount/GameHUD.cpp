@@ -2,6 +2,9 @@
 
 #include "GameHUD.h"
 #include "Engine/Canvas.h" 
+#include "StairDismountGameModeBase.h"
+
+constexpr int SPACING = 20;
 
 //=============================================================================
 void AGameHUD::DrawHUD()
@@ -17,4 +20,10 @@ void AGameHUD::DrawHUD()
         TileItem.BlendMode = SE_BLEND_Translucent;
         Canvas->DrawItem(TileItem);
     }
+
+    AStairDismountGameModeBase* GameMode = static_cast<AStairDismountGameModeBase*>(GetWorld()->GetAuthGameMode());
+    DrawText(TEXT("Score: ") + FString::FromInt(GameMode->Score), FColor::Black, SPACING, SPACING, ScoreFont);
+    DrawText(TEXT("Balls: ") + FString::FromInt(GameMode->Bullets), FColor::Black, SPACING, ScoreFont->GetMaxCharHeight() + SPACING, ScoreFont);
+    DrawText(TEXT("Fire: Left Mouse\nForward: W\nBack: S\nLeft: A\nRight: D\nRestart: R"), 
+        FColor::Black, SPACING, SPACING + ScoreFont->GetMaxCharHeight() * 3, SmallFont);
 }

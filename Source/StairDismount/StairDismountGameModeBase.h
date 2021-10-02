@@ -13,4 +13,7 @@ UCLASS() class STAIRDISMOUNT_API AStairDismountGameModeBase : public AGameModeBa
 
 public:
 	virtual void StartPlay() override;
+
+	UPROPERTY(EditAnywhere) int Score;
+	UPROPERTY(EditAnywhere) int Bullets;
 };

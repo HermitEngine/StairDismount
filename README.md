@@ -11,6 +11,19 @@ The tools I used to create this project are:
 - Unreal Engine 4.27.0
 - Microsoft Visual Studio Community 2019 Version 16.4.2
 
+## Assets
+
+Royalty Free Sounds are from [freesound.org](https://freesound.org)
+- [whoosh](https://freesound.org/people/qubodup/sounds/60013/)
+- [ping](https://freesound.org/people/wilhellboy/sounds/351369/)
+- [game start](https://freesound.org/people/plasterbrain/sounds/243020/)
+
+Mannequin Mesh is from Epic's 3rd Person Framework.
+
+Crosshair is from Epic's FPS tutorial.
+
+Coolvetica font is from [dafont](https://www.dafont.com/coolvetica.font)
+
 ## Additional notes
 
 If you wish to follow along my trials and tribulations with Unreal for your own amusement, feel free to browse the [DEVLOG](DEVLOG.md).

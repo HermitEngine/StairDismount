@@ -26,12 +26,12 @@ ABullet::ABullet()
 	{
 		ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 		ProjectileMovementComponent->SetUpdatedComponent(CollisionComponent);
-		ProjectileMovementComponent->InitialSpeed = 3000.0f;
-		ProjectileMovementComponent->MaxSpeed = 3000.0f;
+		ProjectileMovementComponent->InitialSpeed = 2000.0f;
+		ProjectileMovementComponent->MaxSpeed = 2000.0f;
 		ProjectileMovementComponent->bRotationFollowsVelocity = true;
 		ProjectileMovementComponent->bShouldBounce = true;
 		ProjectileMovementComponent->Bounciness = 0.3f;
-		ProjectileMovementComponent->ProjectileGravityScale = 0.f;
+		ProjectileMovementComponent->ProjectileGravityScale = 0.2f;
 	}
 
 	if (!ProjectileMeshComponent)
@@ -52,6 +52,15 @@ ABullet::ABullet()
 	ProjectileMeshComponent->SetMaterial(0, ProjectileMaterialInstance);
 	ProjectileMeshComponent->SetRelativeScale3D(FVector(0.09f, 0.09f, 0.09f));
 	ProjectileMeshComponent->SetupAttachment(RootComponent);
+
+	if (!PingSound)
+	{
+		static ConstructorHelpers::FObjectFinder<USoundBase>SoundWave(TEXT("SoundWave'/Game/Sounds/ping.ping'"));
+		if (SoundWave.Succeeded())
+		{
+			PingSound = SoundWave.Object;
+		}
+	}
 
 	InitialLifeSpan = 3.0f;
 }
@@ -88,11 +97,8 @@ void ABullet::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrim
 	{
 		ASkeletalMeshActor* CrashDummy = static_cast<ASkeletalMeshActor*>(OtherActor);
 		CrashDummy->GetSkeletalMeshComponent()->SetSimulatePhysics(true);
-		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 50.0f, Hit.ImpactPoint);
-	}
-	else if (OtherActor != this)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, NormalImpulse.ToString());
+		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 10.0f, Hit.ImpactPoint);
+		UGameplayStatics::PlaySoundAtLocation(this, PingSound, Hit.ImpactPoint);
 	}
 
 	Destroy();

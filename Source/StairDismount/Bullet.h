@@ -5,6 +5,7 @@
 #include "GameFramework/Pawn.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Bullet.generated.h"
 
 //=============================================================================
@@ -25,6 +26,7 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Movement) UProjectileMovementComponent* ProjectileMovementComponent;
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile) UStaticMeshComponent* ProjectileMeshComponent;
 	UPROPERTY(VisibleDefaultsOnly, Category = Movement) UMaterialInstanceDynamic* ProjectileMaterialInstance;
+	UPROPERTY(EditDefaultsOnly) USoundBase* PingSound;
 
 protected:
 	virtual void BeginPlay() override;
