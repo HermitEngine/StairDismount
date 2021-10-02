@@ -15,3 +15,14 @@ The plan of action is that I will create a simple FPS, and use the projectile to
 To this end, I have followed the official [FPS Shooter Tutorial](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/ProgrammingWithCPP/CPPTutorials/FirstPersonShooter/) and I am beginning to get a grasp of the culture of the engine and how it wants to be interacted with. I'm fairly happy with the result as I now have my projectile launcher as well as a rudementary HUD.
 
 I'm a bit dubious about the amount of initialization that's going on inside constructors. Still, that's how the tutorial was structured, and therefore what EPIC recommends. There's probably better practices in the way to set things up, but right now my focus isn't on being perfect but simply learning. The next stage is where the training wheels come off and I start digging deeper.
+
+
+## 2021-10-02
+
+Today was all about collisions and responses, and I'm satisfied that I have the basic of what's required for the actual test evaluation. The bullet I coded yesterday now collides with my shiny new mannequin. On first collision, the mannequin will ragdoll, and every time it collides with something or other, I get a number based on the velocity differential to add to a score.
+
+The bulk of frustration today was figuring out how the collisions actually work since apparantly for skeletal actors, the way you do it is totally different from the way our bullet was handled in the nice tutorial. Also sad was that in the collision response function, they provided an Impulse vector, but that was always zero. Known bug apparently. All in all, this is not that much of a C++ test given that very little code is actually written. It's more of a figure-out-what-the-engine-wants-you-to-do test.
+
+On hindsight, I'd fully expect a competent Unreal Engine developer would be able to finish this in a few hours. A pretty reasonable assignment for a code test. My problem is that I'm groping around like a blind man... I suppose everybody starts somewhere!
+
+All that's left now is to hook up the score and bullet count to the HUD. Some general level design to make things pretty. And a little game state management to restart or end the simulation after all bullets are expended. I feel like the hard part is over, but I could be wrong!

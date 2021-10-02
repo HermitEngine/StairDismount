@@ -1,6 +1,7 @@
 // Created 2021-10-1 by eugene@e-goh.com
 
 #include "Bullet.h"
+#include "Animation/SkeletalMeshActor.h"
 
 //=============================================================================
 ABullet::ABullet()
@@ -30,7 +31,7 @@ ABullet::ABullet()
 		ProjectileMovementComponent->bRotationFollowsVelocity = true;
 		ProjectileMovementComponent->bShouldBounce = true;
 		ProjectileMovementComponent->Bounciness = 0.3f;
-		ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
+		ProjectileMovementComponent->ProjectileGravityScale = 0.f;
 	}
 
 	if (!ProjectileMeshComponent)
@@ -83,9 +84,15 @@ void ABullet::ShootInDirection(const FVector& ShootDirection)
 void ABullet::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, 
 	FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
+	if (OtherActor != this && OtherActor->IsA<ASkeletalMeshActor>())
 	{
-		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
+		ASkeletalMeshActor* CrashDummy = static_cast<ASkeletalMeshActor*>(OtherActor);
+		CrashDummy->GetSkeletalMeshComponent()->SetSimulatePhysics(true);
+		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 50.0f, Hit.ImpactPoint);
+	}
+	else if (OtherActor != this)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, NormalImpulse.ToString());
 	}
 
 	Destroy();
