@@ -38,3 +38,52 @@ The rest of the minor functionality like bullet counting and level resetting too
 The bulk of the time was spent on level building and tweaking the projectile strength and efficiency. I decided not to spend even more time perusing the asset store, but just made everything out of cubes in true programmer art style. Though I initially intended not to include sound, it felt like I had to simply because it was lacking that bit of character. Adding them in was simple enough, but finding the right sounds was a little time consuming.
 
 I'm going to go to bed now, but when I wake up, I'll do a little post-mortem and call it a wrap!
+
+## 2021-10-03 (Post-mortem)
+
+This project was quite a good introduction to UE4 and the way it operates. I got a good sense of the way things are done, and am reasonably confident of learning and adapting any other functionality that I might need in the future. Here are some key highlights.
+
+### Blueprints
+
+Blueprints are a very impressive tool. While flow-charting is just as clunky as it was from the days of Virtools, I can see that it is a good way to offload tweaking to designers. For programmers, however, the real value is in the exposure of variables.
+
+Const variables and similar macros should be a thing of the past. If you have one, simply make it a property and expose it to the editor. The only place I felt compelled to add a constexpr was in the GameHUD class, mainly because it was badly structured. Like every other class, it should have had a derived blueprint. The parameter components that are hardcoded in the constructor should be set via the editor. It was implemented the way it was simply because I was following along the tutorial and didn't know any better. It is unlikely I'll write code in that style in the future. Nevertheless, it's still neat that you can reference any asset by lookup. However, if you rename, delete or move the asset, the editor simply crashes.
+
+Other things I should have exposed to the editor are some of the numbers used for the Bullet. Most notably, the multiplier for how much impulse to forward to the colliding objects, and the threshold for determining if a CrashDummy collision is score-worthy. Note that these are number literals rather than const-like expressions. This is style I've had for a long time because it makes the code much easier to read and tweak if you don't have to keep jumping around the code to find its definition. The rule I follow is that if an expression is only used once the code, it is a literal. More than that, and it gets a const because the trade-off for convenient tweaking is worthwhile, and at this point, its value means something significant to the whole codebase that can now be relayed though the const's name.
+
+All that being said, I have no idea what the runtime cost of exposing these numbers to blueprints are. The current project is far to small to produce a meaningful profile, and in any case, that's probably beyond the current scope. However, in the back of my mind, I'm mentally prepared that we might have to go through and convert all these blueprints back to consts once the final values are agreed upon, or simply live with the cost. There has to be a reason why Unreal games and apps in general have a slower loading time and consume more battery power than other engines including Unity3D. Could be the richness of its features, or could be this.
+
+### Documentation
+
+Documentation for UE4 is generally good. The video tutorials were excruciatingly slow and it was hard to get value out of them. The text ones, however, were golden. Having been around for a long time, there's of course a great deal of community content, tutorials, and [Stack Overflow](https://stackoverflow.com) questions.
+
+The one thing I wish was available was an offline API reference. I suppose one could send a spider to scrape the website, but given the huge disk footprint of the engine, you'd expect that to be bundled.
+
+### Marketplace and Assets
+
+The Marketplace is a great place for placeholder and example assets. Unfortunately, because we picked the latest version: 4.27 of the engine, a lot of them weren't updated to be compatible with it yet, placing them out of reach. When I was looking for the mannequin model, an online resource said that you could just grab it from the marketplace. Unfortunately, it was one of those that wasn't quite compatible. What I had to do was create a seperate temporary 3rd-person project, and migrate it from there to the StairDismount one. Not the most elegant solution, but it worked!
+
+Importing raw assets like fbx files, sounds, bitmaps, etc. was as easy as drag, drop and forget. The editor is kind enough to offer to create default interfaces (like materials and font faces) for these raw assets so there's at least something to modify or copy.
+
+### Code Structure
+
+The way the code is structured by default is reasonable. Every class seems to have its place and purpose. The generated code was far too verbose in its comments, but that seems reasonable given that it would be an introduction for all levels of programmers. I ended up removing all the comments, because the code that needed to be written was straight-forward enough that an English description would be no better than the C++ one.
+
+This project, in general, was simple enough that it didn't require any architecting. I just followed the default flow. That being said, this would generally be my approach at a first run-through of new tech regardless.
+
+- First Run: Implement everything as prescribed, whether you agree with it or not. Just to get the idea of what the engine is trying to do and what it expects from the programmer.
+- Second Run: Make changes based on past experience to suit the context of the project. At this stage, I'm likely to overcompensate and cause unintended side-effects
+- Third Run: By this time, I become pretty aware of the pitfalls and hacks, and can make subtler tweaks for greater effect. At this stage, I'm comfortable.
+- Seventh Run: It usually takes around this number of runs to truly claim mastery over any non-trivial tech.
+
+### Potential Future Features
+
+If this project were to become a full-fledged game. The first thing I would add is persistent high score. This gives the player an instant goal, and increases addictivity by about 247%. Bonus points if it's online so that you can compete against the world or your social network. (Somebody will hack it to get maximum score though)
+
+The second thing is more interesting level design. In the case of our current level, I heavily neutered the bullet so that it doesn't produce much impulse. This makes optimal way to get a high score methodically nudging the character so it rolls down the steps. However, by increasing the bullet potency, you can literally make the character fly all over the place, and with some tweaks to gravity, perhaps introduce some juggling mechanics. Given that the mannequin, has a full skeletal mesh, it could also be playing some sort of dance animation so timing the first hit becomes a factor. The possibilities are out there.
+
+The last thing would simply be polish. A prettier UI (though the current text-based one has a certin rustic appeal). Perhaps renaming the game to some pun off six-shooter. More sounds, especially on dummy-environment collisions, and a little background music.
+
+### Epilogue
+
+All that said, the key thing about any project is knowing when to stop. I came into this knowing that as a first run it will be throw-away code, and in its current state it has served its purpose. I now feel somewhat at home in the Unreal environment, and am confident I could recreate this project in a third of the time if required. It also serves as an indicator of what I can do with a reasonably good but complex engine that I am entirely new to in 12 hours. It's been fun, and thanks for following along on this journey!
